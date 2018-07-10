@@ -11,7 +11,8 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { products : [
+    this.state = {
+      products : [
     { id: 40, name: 'Mediocre Iron Watch', priceInCents: 399 },
     { id: 41, name: 'Heavy Duty Concrete Plate', priceInCents: 499 },
     { id: 42, name: 'Intelligent Paper Knife', priceInCents: 1999 },
@@ -30,28 +31,33 @@ class App extends Component {
 }
 
 addToCart = (newItem) => {
-  // console.log(newItem.quantity)
   let arr = this.state.products
   let result = arr.filter(product => product.name === newItem.products)
-  let resultObj = {id: 1,
+  let resultObj = {
                   product: result[0],
                   quantity: newItem.quantity
-                }
-  console.log(this.state.shoppingCart.concat(resultObj))
+                  }
+  this.state.shoppingCart.push(resultObj)
+
+  this.setState( {
+    shoppingCart: this.state.shoppingCart
+  }
+)
+console.log(this.state.shoppingCart)
 }
 
 render() {
 
-  const ItemsList = [
-    { id: 1, product: { id: 40, name: 'Mediocre Iron Watch', priceInCents: 399 }, quantity: 1 },
-    { id: 2, product: { id: 41, name: 'Heavy Duty Concrete Plate', priceInCents: 499 }, quantity: 2 },
-    { id: 3, product: { id: 42, name: 'Intelligent Paper Knife', priceInCents: 1999 }, quantity: 1 },
-  ]
+  // const ItemsList = [
+  //   { id: 1, product: { id: 40, name: 'Mediocre Iron Watch', priceInCents: 399 }, quantity: 1 },
+  //   { id: 2, product: { id: 41, name: 'Heavy Duty Concrete Plate', priceInCents: 499 }, quantity: 2 },
+  //   { id: 3, product: { id: 42, name: 'Intelligent Paper Knife', priceInCents: 1999 }, quantity: 1 },
+  // ]
 
     return (
       <div className="App">
         <Header />
-        <Items list = { ItemsList } />
+        <Items list = { this.state.shoppingCart } />
         <AddItem products = { this.state.products } addToCart={ this.addToCart }/>
         <Footer />
       </div>

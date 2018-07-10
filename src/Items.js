@@ -13,12 +13,12 @@ const Items = (props) => {
               <div className="col-md-2">Quantity</div>
             </div>
           </div>
-            { props.list.map(list =>
-              <Item
-              key={ list.id } product={ list.product.name } price={ list.product.priceInCents }
-              quantity={ list.quantity }
-              />
-            )}
+          { props.list.map((list, i) =>
+            <Item
+            key={ i } product={ list.product.name } price={ list.product.priceInCents }
+            quantity={ list.quantity }
+            />
+          ) }
         </div>
     </div>
   )
