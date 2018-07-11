@@ -14,12 +14,23 @@ class AddItem extends Component {
     this.props.addToCart(this.state)
   }
 
+
+
+  // log = (props) => {
+  // console.log(props.addToCart)
+  // }
+
   render() {
 
   return (
     <div className="container">
       <div className="row">
         <form onSubmit={this.onSubmit}>
+          <p>
+            <label>
+              Total Price: $ { this.props.total() }
+            </label>
+          </p>
           <p>
             <label>
               Quantity:

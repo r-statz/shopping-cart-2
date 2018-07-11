@@ -23,43 +23,52 @@ class App extends Component {
     { id: 47, name: 'Ergonomic Bronze Lamp', priceInCents: 40000 },
     { id: 48, name: 'Awesome Leather Shoes', priceInCents: 3990 },
     ],
-    shoppingCart : [],
-    quantity : 0,
-    name : '',
-    total: 0
+    shoppingCart : []
   }
 }
 
 addToCart = (newItem) => {
+  let cart = this.state.shoppingCart
   let arr = this.state.products
-  let result = arr.filter(product => product.name === newItem.products)
-  let resultObj = {
-                  product: result[0],
-                  quantity: newItem.quantity
-                  }
-  this.state.shoppingCart.push(resultObj)
 
-  this.setState( {
-    shoppingCart: this.state.shoppingCart
+  let result = arr.filter(product =>  newItem.products === product.name).reduce(x => x)
+
+  let quantity = newItem.quantity === NaN ? 0 : newItem.quantity
+
+  let resultObj = {
+    product: {...result,
+    priceInCents: (result.priceInCents/100).toFixed(2)},
+    quantity: newItem.quantity
   }
-)
-console.log(this.state.shoppingCart)
+
+  let cartFilter = cart.filter(item => item.product.name === newItem.products)
+  if(cartFilter.length === 1) {
+    cartFilter[0].quantity = Number(cartFilter[0].quantity)+ Number(newItem.quantity)
+    this.setState({shoppingCart: cart})
+
+  } else {
+    cart = [...cart, resultObj]
+    this.setState({shoppingCart: cart})
+    }
+}
+
+total = () => {
+  let cart = this.state.shoppingCart
+  let totalResult = 0;
+  for(let i = 0; i < cart.length; i++) {
+    totalResult += cart[i].quantity * cart[i].product.priceInCents
+  }
+  return totalResult
 }
 
 render() {
 
-  // const ItemsList = [
-  //   { id: 1, product: { id: 40, name: 'Mediocre Iron Watch', priceInCents: 399 }, quantity: 1 },
-  //   { id: 2, product: { id: 41, name: 'Heavy Duty Concrete Plate', priceInCents: 499 }, quantity: 2 },
-  //   { id: 3, product: { id: 42, name: 'Intelligent Paper Knife', priceInCents: 1999 }, quantity: 1 },
-  // ]
-
-    return (
-      <div className="App">
-        <Header />
-        <Items list = { this.state.shoppingCart } />
-        <AddItem products = { this.state.products } addToCart={ this.addToCart }/>
-        <Footer />
+  return (
+    <div className="App">
+      <Header />
+      <Items list = { this.state.shoppingCart } />
+      <AddItem products = { this.state.products }   addToCart={ this.addToCart } total = { this.total }/>
+      <Footer />
       </div>
     );
   }

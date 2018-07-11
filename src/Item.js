@@ -5,7 +5,7 @@ const Item = (props) => {
     <div className="list-group-item">
       <div className="row">
         <div className="col-md-8">{props.product}</div>
-        <div className="col-md-2">{props.price}</div>
+        <div className="col-md-2">${props.price}</div>
         <div className="col-md-2">{props.quantity}</div>
       </div>
     </div>
